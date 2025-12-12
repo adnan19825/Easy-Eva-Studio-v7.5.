@@ -16,4 +16,13 @@ serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
 colored = "2.0"
 anyhow = "1.0"
-log = "0.4"         # <--- NEUE ZEILE HIER HINZUFÜGEN
+log = "0.4"
+# Cargo.toml (Ende der Datei)
+
+[profile.release]
+# Aktiviert die Linker-Flags, um die main-Funktion zu ignorieren (--no-entry)
+# und die Wasm-Größe weiter zu optimieren (lto, codegen-units=1).
+lto = true
+codegen-units = 1
+panic = "abort" # Verwendet kein unwinding-Code
+

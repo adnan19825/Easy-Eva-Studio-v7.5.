@@ -1,3 +1,10 @@
+#![no_std] // <--- NEU: Verhindert die Verwendung der Standardbibliothek (wie --no-standard-libraries in Clang)
+
+use wasm_bindgen::prelude::*;
+use log;
+
+// ... (der Rest deines Codes bleibt gleich)
+
 // =================================================================
 // OpenFHE Foreign Function Interface (FFI) Simulation
 // =================================================================
