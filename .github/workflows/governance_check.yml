@@ -56,7 +56,8 @@ jobs:
           path: target/wasm32-unknown-unknown/release/easyfhe_core.wasm
 
           # Limit: 1.3 MB = 1363148 bytes
-          if [ "$size" -gt 1363148 ]; then
+               if [ "$size" -gt 1363148 ];
+        
             echo "❌ VIOLATION: Artifact exceeds 1.3MB Quantinuum Limit!"
             exit 1
           else
