@@ -1,0 +1,55 @@
+name: Governance & Compliance Check
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # Job 1: Die Gesetze prüfen (Dein Rust-Validator)
+  policy-audit:
+    name: 🏛️ Validate Security Profile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+
+      - name: 🛡️ Run Policy Validator
+        run: cargo run --bin studio_validator
+
+  # Job 2: Die Technik prüfen (Wasm Größe)
+  artifact-compliance:
+    name: ⚖️ Check Wasm Size Limit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Wasm Target
+        run: rustup target add wasm32-unknown-unknown
+
+      - name: 🏗️ Build Decoder
+        run: cargo build --lib --target wasm32-unknown-unknown --release
+
+      - name: 📏 Weigh Artifact
+        run: |
+          cd target/wasm32-unknown-unknown/release
+          size=$(ls -l easyfhe_core.wasm | awk '{print $5}')
+          echo "Detected Size: $size bytes"
+
+          # Limit: 1.3 MB = 1363148 bytes
+          if [ "$size" -gt 1363148 ]; then
+            echo "❌ VIOLATION: Artifact exceeds 1.3MB Quantinuum Limit!"
+            exit 1
+          else
+            echo "✅ COMPLIANCE: Artifact is within limits."
+          fi
+
