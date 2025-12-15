@@ -1,0 +1,19 @@
+# Build artifacts
+build/
+*.so
+*.o
+*.a
+example
+test_simple
+
+# Backup files (wir haben separate Backup-Ordner)
+*.tar.gz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System
+.DS_Store
