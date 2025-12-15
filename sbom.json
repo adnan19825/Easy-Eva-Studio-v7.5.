@@ -1,0 +1,53 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-12-15T21:31:17.289898",
+    "tools": [
+      {
+        "vendor": "hybrid-kem",
+        "name": "sbom-generator",
+        "version": "1.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:generic/hybrid-kem@0.1.0",
+      "name": "hybrid-kem",
+      "version": "0.1.0",
+      "description": "Hybrid Post-Quantum KEM Library"
+    },
+    "properties": [
+      {
+        "name": "build:system",
+        "value": "{\"timestamp\": \"2025-12-15T21:31:17.289907\", \"project\": \"hybrid-kem\", \"version\": \"0.1.0\", \"openssl\": \"OpenSSL 3.6.0 1 Oct 2025 (Library: OpenSSL 3.6.0 1 Oct 2025)\", \"cmake\": \"cmake version 4.2.1\", \"compiler\": \"clang version 21.1.7\"}"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:generic/openssl",
+      "name": "openssl",
+      "version": "3.6.0",
+      "description": "Cryptography and SSL/TLS Toolkit"
+    },
+    {
+      "type": "framework",
+      "bom-ref": "pkg:generic/cmake",
+      "name": "cmake",
+      "version": "3.22.1",
+      "description": "Cross-platform build system"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:generic/hybrid-kem@0.1.0",
+      "dependsOn": [
+        "pkg:generic/openssl",
+        "pkg:generic/cmake"
+      ]
+    }
+  ]
+}
