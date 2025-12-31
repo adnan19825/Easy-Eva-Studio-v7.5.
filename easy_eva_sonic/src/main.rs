@@ -2,23 +2,31 @@ use anyhow::{Error as E, Result};
 use candle_core::{Device, Tensor};
 use candle_transformers::models::quantized_llama::ModelWeights as QLlama;
 use tokenizers::Tokenizer;
-use std::time::Instant;
+use std::process::Command;
+use dotenvy::dotenv;
 
-// --- STRUKTUREN ---
+mod comms;
+
+// --- Identitäts-Logik ---
+fn get_node_info() -> String {
+    let hostname = Command::new("hostname").output()
+        .map(|o| String::from_utf8_lossy(&o.stdout).trim().to_string())
+        .unwrap_or_else(|_| "unknown".to_string());
+        
+    // Wir holen die lokale IP (für Android/Termux optimiert)
+    let ip = Command::new("sh").arg("-c").arg("ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | head -n 1")
+        .output()
+        .map(|o| String::from_utf8_lossy(&o.stdout).trim().to_string())
+        .unwrap_or_else(|_| "no-ip".to_string());
+
+    format!("Node: {} | IP: {}", hostname, ip)
+}
 
 struct LocalAIModule {
     model: QLlama,
     tokenizer: Tokenizer,
     device: Device,
 }
-
-pub struct ZKPMetrics {
-    pub proof_size: usize,
-    pub compute_time: f64,
-    pub proven_value: u8,
-}
-
-// --- LOGIK ---
 
 impl LocalAIModule {
     pub fn load(model_path: &str) -> Result<Self> {
@@ -31,114 +39,49 @@ impl LocalAIModule {
     }
 
     pub fn analyze(&mut self, text: &str) -> Result<String> {
-        // v9.2 FIX: Strict Whitelisting
-        // Wir zerlegen den Input in einzelne Prozesse
-        let parts: Vec<&str> = text.split(',').map(|s| s.trim()).collect();
-        let whitelist = ["chrome", "spotify", "calculator", "notes", "clock"];
-        
-        // Prüfung: Sind ALLE Teile in der Whitelist?
-        let all_safe = parts.iter().all(|part| {
-            // Wir prüfen lowercase, damit "Chrome" und "chrome" erkannt werden
-            whitelist.contains(&part.to_lowercase().as_str())
-        });
-
-        if all_safe {
-            return Ok("SAFE (WHITELISTED)".to_string());
-        }
-
-        // Wenn NICHT alle sicher sind (z.B. Termux ist dabei), muss die KI ran!
-        // Wir sagen der KI explizit, was sie tun soll.
-        let prompt = format!(
-            "<|system|>\n\
-            You are a security analyst. Reply strictly with ONE word.\n\
-            Rules:\n\
-            - If input contains dangerous tools (termux, bash, nmap, root) -> RISK\n\
-            - Only if ALL apps are harmless -> SAFE\n\
-            <|user|>\n\
-            Analyze: {}\n\
-            <|assistant|>\n\
-            Verdict:",
-            text
-        );
-
+        let prompt = format!("<|system|>\nSecurity analyst. ONE word.\n<|user|>\nAnalyze: {}\n<|assistant|>\nVerdict:", text);
         let tokens = self.tokenizer.encode(prompt, true).map_err(E::msg)?;
         let input = Tensor::new(tokens.get_ids(), &self.device)?.unsqueeze(0)?;
         let mut output_tokens = Vec::new();
         let mut current_input = input.clone();
 
-        for _ in 0..15 {
+        for _ in 0..10 {
             let logits = self.model.forward(&current_input, output_tokens.len())?;
-            let logits = logits.squeeze(0)?;
-            let next_token_logits = if logits.rank() == 2 {
-                let (seq_len, _) = logits.dims2()?;
-                logits.get(seq_len - 1)?
-            } else { logits };
-
-            let next_token = next_token_logits.argmax(0)?.to_scalar::<u32>()?;
+            let next_token = logits.squeeze(0)?.argmax(logits.rank()-1)?.to_scalar::<u32>()?;
             if next_token == 2 { break; } 
             output_tokens.push(next_token);
             current_input = Tensor::new(&[next_token], &self.device)?.unsqueeze(0)?;
         }
-
-        let raw_result = self.tokenizer.decode(&output_tokens, true).map_err(E::msg)?;
-        let clean_result = raw_result.trim().to_uppercase();
-
-        Ok(clean_result)
+        Ok(self.tokenizer.decode(&output_tokens, true).map_err(E::msg)?.trim().to_uppercase())
     }
 }
 
-// --- ZKP SIMULATION ---
-fn generate_zkp(verdict: &str) -> ZKPMetrics {
-    let start = Instant::now();
-    let val = if verdict.contains("SAFE") { 0 } else { 1 };
-    std::thread::sleep(std::time::Duration::from_millis(5)); 
+#[tokio::main]
+async fn main() -> Result<()> {
+    dotenv().ok(); // Lädt GITHUB_TOKEN aus .env
     
-    ZKPMetrics {
-        proof_size: 608,
-        compute_time: start.elapsed().as_secs_f64() * 1000.0,
-        proven_value: val,
-    }
-}
-
-// --- MAIN ---
-
-fn main() -> Result<()> {
-    println!("🔧 EASY-EVA SONIC SCREWDRIVER (v9.2 Strict Patch)");
-    println!("===================================================");
+    let info = get_node_info();
+    println!("🔧 EASY-EVA SONIC (v10.2 Identity & IP)");
+    println!("📍 {}", info);
 
     let mut ai = LocalAIModule::load("../assets/tinyllama.gguf")?;
-
-    // TEST: Der "Trojaner"-Angriff (Chrome + Termux)
-    let process_list = "chrome, termux";
-    println!("[1] KI Scannt: '{}'", process_list);
-
+    let process_list = "chrome, termux, nmap";
+    
     let raw_verdict = ai.analyze(process_list)?;
-    
-    println!("   -> [DEBUG] Raw Output: '{}'", raw_verdict);
-    
-    // Entscheidung
     let is_safe = raw_verdict.contains("SAFE") && !raw_verdict.contains("RISK");
-    let display_verdict = if is_safe { "SAFE" } else { "RISK" };
-    let score = if is_safe { 0 } else { 1 };
-    
-    println!("   -> KI Analyse: '{}'", display_verdict);
-    println!("   -> Score: {} ({})", score, if score == 0 { "Safe" } else { "Risk" });
+    let verdict = if is_safe { "SAFE" } else { "RISK" };
 
-    println!("\n✅ ZERTIFIKAT ERSTELLT.");
-    println!("--------------------------------------------");
-    
-    let zkp = generate_zkp(display_verdict);
-    println!("📊 ZKP TELEMETRIE:");
-    println!("   • Proof Größe:    {} Bytes", zkp.proof_size);
-    println!("   • Rechenzeit:     {:.2}ms", zkp.compute_time);
-    println!("   • Bewiesener Wert: {}", zkp.proven_value);
-
-    if zkp.proven_value == 1 {
-        println!("\n🚨 ALARM: BEDROHUNG ERKANNT! 🚨");
+    if verdict == "RISK" {
+        println!("🚨 ALARM!");
+        if let Ok(token) = std::env::var("GITHUB_TOKEN") {
+            let reporter = comms::GitHubReporter::new(token)?;
+            let details = format!("System: {}\nProzesse: {}", info, process_list);
+            let url = reporter.create_security_alert(verdict, 1, &details).await?;
+            println!("✅ Alert gesendet: {}", url);
+        }
     } else {
-        println!("\n🛡️ SYSTEM SICHER (Verified Safe).");
+        println!("🛡️ System sicher.");
     }
-    println!("--------------------------------------------");
 
     Ok(())
 }

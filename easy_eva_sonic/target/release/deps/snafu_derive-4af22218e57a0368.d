@@ -1,0 +1,8 @@
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/snafu_derive-4af22218e57a0368.d: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/parse.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/shared.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/report.rs
+
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/libsnafu_derive-4af22218e57a0368.so: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/parse.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/shared.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/report.rs
+
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/lib.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/parse.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/shared.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/snafu-derive-0.8.9/src/report.rs:
