@@ -1,23 +1,27 @@
 [package]
 name = "easy_eva_sonic"
-version = "0.1.0"
+version = "10.9.0"
 edition = "2021"
 
 [dependencies]
-dotenvy = "0.15"
-# Basis Tools
-anyhow = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+# Kryptografie
+bulletproofs = "4.0"
+curve25519-dalek-ng = "4.1"
+merlin = "3.0"
+rand = "0.8"
 
-# KI Engine (Candle v0.8.0 Stack)
+# KI & System
+anyhow = "1.0"
 candle-core = "0.8.0"
 candle-transformers = "0.8.0"
-candle-nn = "0.8.0"
-tokenizers = "0.19.1"
+tokenizers = "0.15.2"
+dotenvy = "0.15.7"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+hex = "0.4"
 
-# Kommunikation & Async (Für GitHub)
+# GitHub Kommunikation
 octocrab = "0.38.0"
-tokio = { version = "1.37.0", features = ["full"] }
-chrono = "0.4.38"
+chrono = "0.4"
 

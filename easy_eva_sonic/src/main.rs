@@ -9,14 +9,33 @@ use std::collections::HashSet;
 use std::fs;
 use std::path::Path;
 
+// ZKP & Kryptografie Komponenten - Einmalig definiert
+use bulletproofs::{BulletproofGens, PedersenGens, RangeProof};
+use curve25519_dalek_ng::scalar::Scalar; 
+use merlin::Transcript;
+use rand::{thread_rng, Rng};
+
 mod comms;
 
 const BASELINE_FILE: &str = "baseline.json";
+const CRITICAL_WHITELIST: &[&str] = &["sleep", "bash", "sh", "ps", "ls", "cargo", "rustc", "apt", "pkg", "tar", "gzip"];
 
-// --- EISERNE WHITELIST (Diese Tools werden NIEMALS getötet) ---
-const CRITICAL_WHITELIST: &[&str] = &[
-    "sleep", "bash", "sh", "ps", "ls", "cargo", "rustc", "apt", "pkg", "tar", "gzip"
-];
+fn generate_zkp_proof(risk_score: u64) -> Result<Vec<u8>> {
+    let pc_gens = PedersenGens::default();
+    let bp_gens = BulletproofGens::new(64, 1);
+    let mut transcript = Transcript::new(b"EasyEvaSecurityProof");
+    let mut rng = thread_rng();
+
+    let mut bytes = [0u8; 32];
+    rng.fill(&mut bytes);
+    let blinding_factor = Scalar::from_bytes_mod_order(bytes);
+
+    let (proof, _commitment) = RangeProof::prove_single(
+        &bp_gens, &pc_gens, &mut transcript, risk_score, &blinding_factor, 32,
+    ).map_err(|_| E::msg("ZKP Generation Failed"))?;
+
+    Ok(proof.to_bytes())
+}
 
 fn get_processes_with_pid() -> Vec<(String, String)> {
     let mut results = Vec::new();
@@ -73,12 +92,10 @@ impl LocalAIModule {
             current_input = Tensor::new(&[next_token], &self.device)?.unsqueeze(0)?;
         }
         let verdict = self.tokenizer.decode(&output_tokens, true).map_err(E::msg)?.to_uppercase();
-
-        let mut confidence: f32 = 0.4; // Basis gesenkt
+        let mut confidence: f32 = 0.4;
         if !is_in_baseline { confidence += 0.3; }
         if cmd.contains("/home") || cmd.starts_with("./") { confidence += 0.2; }
         if verdict.contains("RISK") { confidence += 0.1; }
-
         Ok((verdict, confidence.clamp(0.0, 1.0)))
     }
 }
@@ -86,50 +103,41 @@ impl LocalAIModule {
 #[tokio::main]
 async fn main() -> Result<()> {
     dotenv().ok();
-    println!("🛡️ EASY-EVA SONIC v10.8.11 [SAFETY-FIRST]");
-    
+    println!("🛡️ EASY-EVA SONIC v10.9.0 [QUANTUM GUARDIAN]");
     let mut ai = LocalAIModule::load("../assets/tinyllama.gguf")?;
     let mut baseline: HashSet<String> = HashSet::new();
 
     if Path::new(BASELINE_FILE).exists() {
         let data = fs::read_to_string(BASELINE_FILE)?;
         baseline = serde_json::from_str(&data).unwrap_or_default();
-        println!("💾 Baseline geladen.");
     } else {
-        println!("🎓 Lernen...");
+        println!("🎓 Initiales Lernen...");
         for _ in 1..=5 {
             for (cmd, _) in get_processes_with_pid() {
                 let exe = cmd.split_whitespace().next().unwrap_or("").split('/').last().unwrap_or("").to_string();
                 baseline.insert(exe);
             }
-            tokio::time::sleep(Duration::from_secs(3)).await;
+            tokio::time::sleep(Duration::from_secs(2)).await;
         }
         fs::write(BASELINE_FILE, serde_json::to_string(&baseline)?)?;
-        println!("✅ Baseline gespeichert.");
     }
 
     loop {
         let procs = get_processes_with_pid();
         for (cmd, pid) in procs {
             let exe = cmd.split_whitespace().next().unwrap_or("").split('/').last().unwrap_or("").to_string();
-            
-            // 1. Check Whitelist
-            if CRITICAL_WHITELIST.contains(&exe.as_str()) {
-                continue; 
-            }
-
+            if CRITICAL_WHITELIST.contains(&exe.as_str()) { continue; }
             if !baseline.contains(&exe) || cmd.contains("nmap") {
                 if exe.contains("cargo") || exe.contains("bash") { continue; }
-
-                let (verdict, confidence) = ai.analyze_with_confidence(&cmd, baseline.contains(&exe))?;
+                let (_verdict, confidence) = ai.analyze_with_confidence(&cmd, baseline.contains(&exe))?;
                 let trust = (confidence * 100.0) as u32;
-
-                // 2. Kill nur bei sehr hoher Konfidenz (>95%)
-                if trust >= 95 {
-                    println!("[{}%] 💀 TERMINATE: {} (PID: {})", trust, cmd, pid);
-                    let _ = Command::new("kill").arg("-9").arg(&pid).output();
-                } else if trust >= 70 {
-                    println!("[{}%] ⚠️  SUSPICIOUS: {}", trust, cmd);
+                if let Ok(_proof) = generate_zkp_proof(trust as u64) {
+                    if trust >= 95 {
+                        println!("[{}%] 💀 TERMINATE: {} (PID: {})", trust, cmd, pid);
+                        let _ = Command::new("kill").arg("-9").arg(&pid).output();
+                    } else if trust >= 70 {
+                        println!("[{}%] ⚠️  SUSPICIOUS: {} (ZKP Ready)", trust, cmd);
+                    }
                 }
             }
         }
