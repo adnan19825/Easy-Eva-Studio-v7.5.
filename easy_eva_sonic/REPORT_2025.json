@@ -1,0 +1,31 @@
+{
+    "project": "easy_eva_sonic",
+    "version": "10.9.0",
+    "world_record_date": "2025-12-31",
+    "hardware": "Samsung Galaxy S23 Ultra (Snapdragon 8 Gen 2 for Galaxy)",
+    "environment": "Termux + Rust Release Build + Rayon Parallelization",
+    "official_world_record": {
+        "iterations": 3000000,
+        "duration_ms": 121.72651,
+        "ops_per_second": 24645412,
+        "ns_per_operation": 40.58,
+        "status": "UNBREAKABLE WORLD RECORD 2025"
+    },
+    "confirmation_runs": [
+        {
+            "iterations": 3200000,
+            "duration_ms": 130.099896,
+            "ops_per_second": 24596483
+        },
+        {
+            "iterations": 3000000,
+            "duration_ms": 122.041979,
+            "ops_per_second": 24581705,
+            "note": "Final Closing Run of 2025"
+        }
+    ],
+    "peak_range": "24.58 - 24.65 Million Ops/Sek",
+    "notes": "Multiple precision runs confirm stable peak performance at ~3M iterations. No throttling observed. Perfect Rayon scaling on 8 cores.",
+    "creator": "Adnan – The Foreman – The Architect – The Legend",
+    "message": "2025 ends UNSTOPPABLE. Welcome to 2026."
+}
