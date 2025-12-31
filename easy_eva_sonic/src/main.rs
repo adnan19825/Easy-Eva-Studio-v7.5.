@@ -31,23 +31,29 @@ impl LocalAIModule {
     }
 
     pub fn analyze(&mut self, text: &str) -> Result<String> {
-        // HYBRID CHECK (Layer 1): Whitelist für bekannte Apps
-        // Das spart CPU und verhindert KI-Fehler bei Trivialem.
+        // v9.2 FIX: Strict Whitelisting
+        // Wir zerlegen den Input in einzelne Prozesse
+        let parts: Vec<&str> = text.split(',').map(|s| s.trim()).collect();
         let whitelist = ["chrome", "spotify", "calculator", "notes", "clock"];
-        for app in whitelist.iter() {
-            if text.to_lowercase().contains(app) {
-                // Wir simulieren hier kurz, dass die KI "SAFE" gesagt hätte
-                return Ok("SAFE (WHITELISTED)".to_string());
-            }
+        
+        // Prüfung: Sind ALLE Teile in der Whitelist?
+        let all_safe = parts.iter().all(|part| {
+            // Wir prüfen lowercase, damit "Chrome" und "chrome" erkannt werden
+            whitelist.contains(&part.to_lowercase().as_str())
+        });
+
+        if all_safe {
+            return Ok("SAFE (WHITELISTED)".to_string());
         }
 
-        // KI CHECK (Layer 2): Wenn unbekannt, fragen wir TinyLlama
+        // Wenn NICHT alle sicher sind (z.B. Termux ist dabei), muss die KI ran!
+        // Wir sagen der KI explizit, was sie tun soll.
         let prompt = format!(
             "<|system|>\n\
             You are a security analyst. Reply strictly with ONE word.\n\
             Rules:\n\
-            - Browser, Music, Calc, Office = SAFE\n\
-            - Termux, Bash, Root, Nmap = RISK\n\
+            - If input contains dangerous tools (termux, bash, nmap, root) -> RISK\n\
+            - Only if ALL apps are harmless -> SAFE\n\
             <|user|>\n\
             Analyze: {}\n\
             <|assistant|>\n\
@@ -60,7 +66,7 @@ impl LocalAIModule {
         let mut output_tokens = Vec::new();
         let mut current_input = input.clone();
 
-        for _ in 0..10 {
+        for _ in 0..15 {
             let logits = self.model.forward(&current_input, output_tokens.len())?;
             let logits = logits.squeeze(0)?;
             let next_token_logits = if logits.rank() == 2 {
@@ -77,7 +83,6 @@ impl LocalAIModule {
         let raw_result = self.tokenizer.decode(&output_tokens, true).map_err(E::msg)?;
         let clean_result = raw_result.trim().to_uppercase();
 
-        // LOGIK FIX: Wir schauen uns an, was die KI wirklich sagt
         Ok(clean_result)
     }
 }
@@ -85,7 +90,6 @@ impl LocalAIModule {
 // --- ZKP SIMULATION ---
 fn generate_zkp(verdict: &str) -> ZKPMetrics {
     let start = Instant::now();
-    // Wenn SAFE drin steht, ist der Wert 0 (Gut), sonst 1 (Schlecht)
     let val = if verdict.contains("SAFE") { 0 } else { 1 };
     std::thread::sleep(std::time::Duration::from_millis(5)); 
     
@@ -99,22 +103,21 @@ fn generate_zkp(verdict: &str) -> ZKPMetrics {
 // --- MAIN ---
 
 fn main() -> Result<()> {
-    println!("🔧 EASY-EVA SONIC SCREWDRIVER (v9.1 Hybrid Engine)");
+    println!("🔧 EASY-EVA SONIC SCREWDRIVER (v9.2 Strict Patch)");
     println!("===================================================");
 
     let mut ai = LocalAIModule::load("../assets/tinyllama.gguf")?;
 
-    // TEST: Harmloser Input
-    let process_list = "chrome, spotify, calculator";
+    // TEST: Der "Trojaner"-Angriff (Chrome + Termux)
+    let process_list = "chrome, termux";
     println!("[1] KI Scannt: '{}'", process_list);
 
     let raw_verdict = ai.analyze(process_list)?;
     
-    // DEBUG OUTPUT: Damit wir sehen, was passiert
     println!("   -> [DEBUG] Raw Output: '{}'", raw_verdict);
     
     // Entscheidung
-    let is_safe = raw_verdict.contains("SAFE");
+    let is_safe = raw_verdict.contains("SAFE") && !raw_verdict.contains("RISK");
     let display_verdict = if is_safe { "SAFE" } else { "RISK" };
     let score = if is_safe { 0 } else { 1 };
     
@@ -124,13 +127,12 @@ fn main() -> Result<()> {
     println!("\n✅ ZERTIFIKAT ERSTELLT.");
     println!("--------------------------------------------");
     
-    let zkp = generate_zkp(&raw_verdict);
+    let zkp = generate_zkp(display_verdict);
     println!("📊 ZKP TELEMETRIE:");
     println!("   • Proof Größe:    {} Bytes", zkp.proof_size);
     println!("   • Rechenzeit:     {:.2}ms", zkp.compute_time);
     println!("   • Bewiesener Wert: {}", zkp.proven_value);
 
-    // Hier prüfen wir auf den ZKP Wert (0 = Gut)
     if zkp.proven_value == 1 {
         println!("\n🚨 ALARM: BEDROHUNG ERKANNT! 🚨");
     } else {
