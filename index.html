@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,28 +48,7 @@
             margin: 30px 0;
             transition: transform 0.3s;
         }
-        .btn:hover {
-            transform: scale(1.05);
-        }
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-        .stat-box {
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 10px;
-            min-width: 200px;
-            border: 1px solid #475569;
-        }
-        .stat-value {
-            font-size: 2em;
-            color: #60a5fa;
-            margin: 10px 0;
-        }
+        .btn:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -77,55 +56,36 @@
         <div class="title">Easy-Eva Studio v10.9-sonic</div>
         <p style="color: #94a3b8; font-size: 1.2em;">Post-Quantum Performance Achievement 2025</p>
         
-        <div class="metric">1,010,100 Ops/Sec</div>
-        <p style="color: #cbd5e1;">Mobile ARMv8 | Kyber-768 + Dilithium-3</p>
-        
-        <div class="stats">
-            <div class="stat-box">
-                <div>Single Node</div>
-                <div class="stat-value">1.01M</div>
-                <div style="color: #94a3b8;">Ops/Sec</div>
-            </div>
-            <div class="stat-box">
-                <div>5-Node Cluster</div>
-                <div class="stat-value">4.81M</div>
-                <div style="color: #94a3b8;">Ops/Sec</div>
-            </div>
-            <div class="stat-box">
-                <div>Scaling Efficiency</div>
-                <div class="stat-value">96.1%</div>
-                <div style="color: #94a3b8;">Validated</div>
-            </div>
-        </div>
+        <div class="metric" id="counter">0 Ops/Sec</div>
+        <p style="color: #cbd5e1;">Target: 1,010,100 Ops/Sec on Mobile ARMv8</p>
         
         <a href="performance_dashboard.html" class="btn">View Full Interactive Dashboard →</a>
         
-        <div style="margin-top: 40px; color: #64748b; font-size: 0.9em;">
-            <p>GitHub Pages | HTTPS Secured | Last Update: 2025-12-31</p>
-            <p><a href="https://github.com/adnan19825/Easy-Eva-Studio-v7.5" style="color: #60a5fa;">View Repository</a></p>
+        <div style="margin-top: 40px; color: #64748b;">
+            <p>🚀 5-Node Cluster: 4.81M Ops/Sec | 96.1% Scaling</p>
+            <p>🎯 2026 Target: 10M Ops/Sec Enterprise System</p>
+            <p><a href="https://github.com/adnan19825/Easy-Eva-Studio-v7.5" style="color: #60a5fa;">View GitHub Repository</a></p>
         </div>
     </div>
     
     <script>
-        // Simple animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const metric = document.querySelector('.metric');
-            let count = 0;
-            const target = 1010100;
-            const duration = 2000;
-            const steps = 60;
-            const increment = target / steps;
-            const interval = duration / steps;
-            
-            const counter = setInterval(() => {
-                count += increment;
-                metric.textContent = Math.floor(count).toLocaleString() + ' Ops/Sec';
-                if (count >= target) {
-                    metric.textContent = target.toLocaleString() + ' Ops/Sec';
-                    clearInterval(counter);
-                }
-            }, interval);
-        });
+        // Animated counter
+        let count = 0;
+        const target = 1010100;
+        const duration = 2000;
+        const steps = 100;
+        const increment = target / steps;
+        
+        const counter = document.getElementById('counter');
+        const interval = setInterval(() => {
+            count += increment;
+            counter.textContent = Math.floor(count).toLocaleString() + ' Ops/Sec';
+            if (count >= target) {
+                counter.textContent = target.toLocaleString() + ' Ops/Sec';
+                clearInterval(interval);
+                counter.style.color = '#10b981';
+            }
+        }, duration / steps);
     </script>
 </body>
 </html>
