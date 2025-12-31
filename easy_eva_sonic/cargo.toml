@@ -1,0 +1,24 @@
+[package]
+name = "easy_eva_sonic"
+version = "0.8.0"
+edition = "2021"
+
+[dependencies]
+# ZKP Core
+bulletproofs = "4.0.0"
+curve25519-dalek-ng = { version = "4.1", features = ["serde"] }
+merlin = "3.0"
+rand = "0.8"
+
+# NEU: Crypto Extras für Hashing & Hex-Ausgabe
+sha2 = "0.10"
+hex = "0.4"
+
+# AI Core
+candle-core = "0.8.0"
+candle-transformers = "0.8.0"
+candle-nn = "0.8.0"
+tokenizers = "0.19.1"
+anyhow = "1.0"
+byteorder = "1.5"
+
