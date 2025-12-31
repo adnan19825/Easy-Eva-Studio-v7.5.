@@ -1,0 +1,17 @@
+[package]
+name = "easy_eva_sonic"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+candle-core = "0.8.0"
+candle-transformers = "0.8.0"
+tokenizers = "0.15.2"
+dotenvy = "0.15.7"
+tokio = { version = "1", features = ["full"] }
+octocrab = "0.38.0"
+chrono = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+

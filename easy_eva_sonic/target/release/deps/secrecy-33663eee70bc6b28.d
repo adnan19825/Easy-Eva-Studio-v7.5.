@@ -1,0 +1,10 @@
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/secrecy-33663eee70bc6b28.d: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/boxed.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/string.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/vec.rs
+
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/libsecrecy-33663eee70bc6b28.rlib: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/boxed.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/string.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/vec.rs
+
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/libsecrecy-33663eee70bc6b28.rmeta: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/boxed.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/string.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/vec.rs
+
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/lib.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/boxed.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/string.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secrecy-0.8.0/src/vec.rs:
