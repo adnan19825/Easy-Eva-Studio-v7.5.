@@ -1,0 +1,21 @@
+[package]
+name = "easy_eva_sonic"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# ZKP Core
+bulletproofs = "4.0.0"
+# FIX: "rand_core" entfernt, da es in der NG-Version nicht existiert.
+curve25519-dalek-ng = { version = "4.1", features = ["serde"] }
+merlin = "3.0"
+rand = "0.8"
+
+# AI Core (Stable 0.8.0)
+candle-core = "0.8.0"
+candle-transformers = "0.8.0"
+candle-nn = "0.8.0"
+tokenizers = "0.19.1"
+anyhow = "1.0"
+byteorder = "1.5"
+

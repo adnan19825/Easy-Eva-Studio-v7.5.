@@ -1,0 +1,10 @@
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/esaxx_rs-d27f04b45488245f.d: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/esa.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/sais.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/types.rs
+
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/libesaxx_rs-d27f04b45488245f.rlib: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/esa.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/sais.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/types.rs
+
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/libesaxx_rs-d27f04b45488245f.rmeta: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/esa.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/sais.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/types.rs
+
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/lib.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/esa.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/sais.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/esaxx-rs-0.1.10/src/types.rs:

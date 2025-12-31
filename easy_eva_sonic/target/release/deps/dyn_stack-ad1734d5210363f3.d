@@ -1,0 +1,10 @@
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/dyn_stack-ad1734d5210363f3.d: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/alloc.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/mem.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/stack_req.rs
+
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/libdyn_stack-ad1734d5210363f3.rlib: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/alloc.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/mem.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/stack_req.rs
+
+/data/data/com.termux/files/home/easy_eva_sonic/target/release/deps/libdyn_stack-ad1734d5210363f3.rmeta: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/alloc.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/mem.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/stack_req.rs
+
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/lib.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/alloc.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/mem.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-stack-0.13.2/src/stack_req.rs:
