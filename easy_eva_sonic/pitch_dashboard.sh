@@ -1,0 +1,18 @@
+#!/data/data/com.termux/files/usr/bin/bash
+clear
+echo -e "\033[1;34m==================================================\033[0m"
+echo -e "\033[1;37m   🛡️  EASY-EVA-STUDIO v7.5 - COMMAND CENTER\033[0m"
+echo -e "\033[1;34m==================================================\033[0m"
+echo -e "\033[1;33mPROJEKT-LEITUNG:\033[0m  Adnan"
+echo -e "\033[1;33mBASELINE:\033[0m         3,000,000 Nodes (Validated)"
+echo -e "\033[1;33mPERFORMANCE:\033[0m      28.12 Million Ops/Sec"
+echo -e "\033[1;33mCOMPLIANCE:\033[0m       FIPS-180-4 (SHA-256)"
+echo -e "\033[1;34m--------------------------------------------------\033[0m"
+echo -e "\033[1;32mSTATUS CONTROL PLANE:\033[0m   READY (Termux)"
+echo -e "\033[1;31mSTATUS EXECUTION PLANE:\033[0m MIGRATION (Linux)"
+echo -e "\033[1;34m--------------------------------------------------\033[0m"
+echo -e "Start-Befehle für den Pitch:"
+echo -e "1. Benchmark:  \033[1;36mpython final_benchmark_3m.py\033[0m"
+echo -e "2. Security:   \033[1;36mpython eva_blockchain_security.py\033[0m"
+echo -e "3. Spezifikation: \033[1;36mcat technical_specs.md\033[0m"
+echo -e "\033[1;34m==================================================\033[0m"
