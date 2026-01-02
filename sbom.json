@@ -3,7 +3,7 @@
   "specVersion": "1.4",
   "version": 1,
   "metadata": {
-    "timestamp": "2025-12-15T21:31:17.289898",
+    "timestamp": "2025-12-15T21:47:39.082222",
     "tools": [
       {
         "vendor": "hybrid-kem",
@@ -21,7 +21,7 @@
     "properties": [
       {
         "name": "build:system",
-        "value": "{\"timestamp\": \"2025-12-15T21:31:17.289907\", \"project\": \"hybrid-kem\", \"version\": \"0.1.0\", \"openssl\": \"OpenSSL 3.6.0 1 Oct 2025 (Library: OpenSSL 3.6.0 1 Oct 2025)\", \"cmake\": \"cmake version 4.2.1\", \"compiler\": \"clang version 21.1.7\"}"
+        "value": "{\"timestamp\": \"2025-12-15T21:47:39.082234\", \"project\": \"hybrid-kem\", \"version\": \"0.1.0\", \"openssl\": \"OpenSSL 3.6.0 1 Oct 2025 (Library: OpenSSL 3.6.0 1 Oct 2025)\", \"cmake\": \"cmake version 4.2.1\", \"compiler\": \"clang version 21.1.7\"}"
       }
     ]
   },

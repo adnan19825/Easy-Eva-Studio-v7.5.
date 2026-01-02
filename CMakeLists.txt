@@ -1,33 +1,27 @@
-cmake_minimum_required(VERSION 3.16)
-project(hybrid-kem C)
+cmake_minimum_required(VERSION 3.10)
+project(hybrid-kem VERSION 0.1.0 LANGUAGES C)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 99)
+add_compile_options(-Wall -Wextra)
 
-# Finde OpenSSL
 find_package(OpenSSL REQUIRED)
+find_library(OQS_LIB oqs HINTS $ENV{PREFIX}/lib)
+find_path(OQS_INCLUDE_DIR oqs/oqs.h HINTS $ENV{PREFIX}/include)
 
-# Quellcodedateien
-set(SOURCES
-    src/hybrid_kem.c
+include_directories(include ${OPENSSL_INCLUDE_DIR} ${OQS_INCLUDE_DIR})
+
+add_library(hybrid_kem STATIC
+    src/hybrid/hybrid.c
     src/kem/kyber.c
     src/kem/dilithium.c
     src/utils/random.c
-    src/utils/errors.c
 )
 
-# Include-Verzeichnisse
-include_directories(
-    include
-    ${OPENSSL_INCLUDE_DIR}
-)
+target_link_libraries(hybrid_kem ${OQS_LIB} OpenSSL::Crypto)
 
-# Hauptbibliothek
-add_library(hybrid-kem SHARED ${SOURCES})
+add_executable(test_hybrid tests/test_hybrid_full.c)
+target_link_libraries(test_hybrid hybrid_kem)
 
-# OpenSSL linken
-target_link_libraries(hybrid-kem OpenSSL::SSL OpenSSL::Crypto)
+add_executable(benchmark_hybrid tests/benchmark_hybrid.c)
+target_link_libraries(benchmark_hybrid hybrid_kem)
 
-# Beispiele
-add_executable(example examples/basic_example.c)
-target_link_libraries(example hybrid-kem)
