@@ -1,0 +1,66 @@
+[package]
+name = "easy_eva_sonic"
+version = "0.3.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+axum = "0.7.5"
+tower = "0.4.13"
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+hex = "0.4.3"
+thiserror = "1.0.56"
+anyhow = "1.0.82"
+
+# ZKP Dependencies
+bellman = { version = "0.14.0", features = ["pairing"] }
+ark-circom = { version = "0.5.0", features = ["full"] }
+ark-groth16 = "0.5.0"
+ark-snark = "0.5.0"
+ark-relations = "0.5.0"
+ark-bn254 = "0.5.0"
+ark-ff = "0.5.0"
+ark-std = "0.5.0"
+ark-serialize = { version = "0.5.0", features = ["derive"] }
+
+# KI/Machine Learning Dependencies
+tch = { version = "0.14.0", features = ["torch"] }
+tokenizers = "0.19.1"
+ndarray = "0.16.0"
+ndarray-rand = "0.16.0"
+rand = "0.8.5"
+
+# ONNX Runtime (real ML inference)
+onnxruntime = { git = "https://github.com/nbigaouette/onnxruntime-rs", features = ["load_from_memory"] }
+
+# HTTP und Web
+hyper = "0.14.28"
+http = "1.0.0"
+tower-http = { version = "0.5.0", features = ["cors", "trace"] }
+
+# Async utilities
+futures = "0.3.30"
+async-trait = "0.1.77"
+
+# Crypto/Utility
+blake2 = "0.10.6"
+sha2 = "0.10.8"
+hex-literal = "0.4.1"
+
+[dev-dependencies]
+tokio-test = "0.4.3"
+assert_approx_eq = "1.1.0"
+
+[features]
+default = ["zkp", "ai"]
+zkp = ["bellman", "ark-circom", "ark-groth16"]
+ai = ["tch", "tokenizers", "ndarray"]
+gpu = ["tch/cuda"]  # Für GPU-Unterstützung
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
